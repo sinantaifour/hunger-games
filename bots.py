@@ -38,7 +38,7 @@ class MaxRepHunter(BasePlayer):
 class Random(BasePlayer):
   def __init__(self, p_hunt):
     assert p_hunt >= 0.00 and p_hunt <= 1.00, "p_hunt must be at least 0 and at most 1"
-    self.name = "Random" + str(p_hunt)
+    self.name = "Random(" + str(p_hunt) + ")"
     self.p_hunt = p_hunt
   def hunt_choices(self, round_number, current_food, current_reputation, m, player_reputations):
     return ['h' if random() < self.p_hunt else 's' for p in player_reputations]
@@ -51,7 +51,7 @@ class FairHunter(BasePlayer):
 
 class BoundedHunter(BasePlayer):
   def __init__(self,lower,upper):
-    self.name = "BoundedHunter" + str(lower)+'-'+str(upper) # Hunt whenever the other's reputation is within some range.
+    self.name = "BoundedHunter(" + str(lower) + '-' + str(upper) + ")" # Hunt whenever the other's reputation is within some range.
     self.low = lower
     self.up = upper
   def hunt_choices(self, round_number, current_food, current_reputation, m, player_reputations):

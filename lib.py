@@ -50,6 +50,10 @@ class GamePlayer(): # Autonomously keeps track of food, hunts, and slacks.
     def alive(self):
       return self.food > 0
 
+    @property
+    def name(self):
+      return self.player.name
+
     def __repr__(self):
         return '{} {} {:.3f}'.format(self.player, self.food, self.rep)
 
