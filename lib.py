@@ -69,7 +69,7 @@ class GamePlayer(): # Autonomously keeps track of food, hunts, and slacks.
 
     @property
     def rep(self):
-      return self.hunts/(self.hunts + self.slacks) if self.hunts > 0 else 0
+      return float(self.hunts)/(self.hunts + self.slacks) if self.hunts > 0 else 0
 
     @property
     def alive(self):
