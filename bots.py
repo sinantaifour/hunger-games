@@ -95,3 +95,15 @@ class AverageHunter(BasePlayer):
   def hunt_choices(self, round_number, current_food, current_reputation, m, player_reputations):
     avg_rep = sum(player_reputations) / float(len(player_reputations))
     return ['h' if self.rand.random() < avg_rep else 's' for rep in player_reputations]
+
+
+class Grouper(BasePlayer):
+
+  def __init__(self):
+    self.name = "Grouper" # Groups with people who don't always slack.
+
+  def hunt_choices(self, round_number, current_food, current_reputation, m, player_reputations):
+    if round_number == 1:
+      return ['h'] * len(player_reputations)
+    else:
+      return ['h' if rep > 0 else 's' for rep in player_reputations]
