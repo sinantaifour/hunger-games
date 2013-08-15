@@ -56,7 +56,7 @@ class BoundedHunter(BasePlayer):
     self.up = upper
   def hunt_choices(self, round_number, current_food, current_reputation, m, player_reputations):
     return ['h' if self.low <= rep <= self.up else 's' for rep in player_reputations]
-    
+
 class AverageHunter(BasePlayer):
   def __init__(self):
     self.name = "AverageHunter" # Maintain the average reputation, but spreads its hunts randomly.

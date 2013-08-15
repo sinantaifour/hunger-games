@@ -1,6 +1,6 @@
 # Based on ChadAMiller/hungergames.
 
-from random import randrange, shuffle
+from random import randrange, shuffle, seed, getstate, setstate, random
 
 def without(array, index):
   return array[:index] + array[index+1:]
@@ -20,6 +20,31 @@ class BasePlayer():
     
   def round_end(self, award, m, number_hunters):
     pass
+
+
+class Random():
+  def __init__(self, s):
+    seed(s)
+    random()
+    self.state = getstate()
+
+  def randrange(self, a, b):
+    setstate(self.state)
+    res = randrange(a, b)
+    self.state = getstate()
+    return res
+
+  def shuffle(self, a):
+    setstate(self.state)
+    res = shuffle(a)
+    self.state = getstate()
+    return res
+
+  def random(self):
+    setstate(self.state)
+    res = random()
+    self.state = getstate()
+    return res
 
 class GamePlayer(): # Autonomously keeps track of food, hunts, and slacks.
     def __init__(self, player, food, hunts=0, slacks=0):

@@ -4,7 +4,7 @@ from lib import *
 from bots import *
 from analyzers import *
 
-ps = [Pushover(), Freeloader(), Alternator(), MaxRepHunter(), Random(0.2), Random(0.8), FairHunter(), AverageHunter()]
+ps = [Pushover(), Freeloader(), Alternator(), MaxRepHunter(), FairHunter(), AverageHunter()]
 g = Game(ps)
 a = FoodAnalyzer(g)
 
