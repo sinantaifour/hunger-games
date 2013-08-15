@@ -22,7 +22,7 @@ class BasePlayer():
     pass
 
 
-class Random():
+class Rand():
   def __init__(self, s):
     seed(s)
     random()
@@ -96,6 +96,7 @@ class Game():
 
   def __init__(self, players):
     start_food = 300 * (len(players) - 1)
+    self.rand = Rand(123)
     self.players = [GamePlayer(p, start_food) for p in players]
     self.unshuffled = [p for p in self.players]
     self.round = 0
@@ -118,13 +119,13 @@ class Game():
   def _step(self):
     # Get the active players, and end if there are too few.
     players = self.active_players()
-    shuffle(players)
+    self.rand.shuffle(players)
     P = len(players)
     if P <= 1:
       return
     # Setup variables.
     self.round += 1
-    m = randrange(1, P * (P - 1))
+    m = self.rand.randrange(1, P * (P - 1))
     reps = [p.rep for p in players]
     # Get strategies.
     strategies = []
