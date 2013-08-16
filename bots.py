@@ -52,7 +52,7 @@ class RandomHunter(BasePlayer):
     self.rand = Rand(RandomHunter.seed)
     RandomHunter.seed += 1
     assert p_hunt >= 0.00 and p_hunt <= 1.00, "p_hunt must be at least 0 and at most 1"
-    self.name = "RandomHunger(" + str(p_hunt) + ")"
+    self.name = "RandomHunter(" + str(p_hunt) + ")"
     self.p_hunt = p_hunt
 
   def hunt_choices(self, round_number, current_food, current_reputation, m, player_reputations):
@@ -107,3 +107,19 @@ class Grouper(BasePlayer):
       return ['h'] * len(player_reputations)
     else:
       return ['h' if rep > 0 else 's' for rep in player_reputations]
+
+
+class Confuser(BasePlayer):
+
+  def __init__(self):
+    self.name = "Confuser" # Tries to confuse the others by keep changing his reputation.
+    self.decision = 'h'
+
+  def hunt_choices(self, round_number, current_food, current_reputation, m, player_reputations):
+    if current_reputation > 0.75:
+      self.decision = 's'
+    if current_reputation < 0.25:
+      self.decision = 'h'
+    return [self.decision for rep in player_reputations]
+
+

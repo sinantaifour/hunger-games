@@ -4,10 +4,12 @@ from lib import *
 from bots import *
 from analyzers import *
 
-# ps = [Pushover(), Freeloader(), Alternator(), MaxRepHunter(), FairHunter(), AverageHunter(), RandomHunter(0.2), RandomHunter(0.8)]
-ps = [Freeloader(), Freeloader(), Freeloader(), Freeloader(), Grouper(), Grouper(), Grouper(), Grouper(), Grouper()]
+ps = [Pushover(), Freeloader(), Alternator(), MaxRepHunter(), FairHunter(), AverageHunter(), RandomHunter(0.2), RandomHunter(0.8), Grouper(), Grouper(), Confuser()]
 g = Game(ps)
-a = FoodAnalyzer(g)
+fa = FoodAnalyzer(g)
+ra = RepAnalyzer(g)
 
 g.step(100)
-a.plot(True)
+
+fa.plot(True)
+ra.plot(True)
