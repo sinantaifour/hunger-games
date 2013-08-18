@@ -1,6 +1,6 @@
 # Based on ChadAMiller/hungergames.
 
-from random import randrange, shuffle, seed, getstate, setstate, random
+from random import randrange, shuffle, seed, getstate, setstate, random, expovariate
 
 def without(array, index):
   return array[:index] + array[index+1:]
@@ -43,6 +43,12 @@ class Rand():
   def random(self):
     setstate(self.state)
     res = random()
+    self.state = getstate()
+    return res
+
+  def expovariate(self, lambd):
+    setstate(self.state)
+    res = expovariate(lambd)
     self.state = getstate()
     return res
 

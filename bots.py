@@ -43,6 +43,20 @@ class MaxRepHunter(BasePlayer):
     threshold = max(player_reputations)
     return ['h' if rep == threshold else 's' for rep in player_reputations]
 
+class DecayMaxRepHunter(BasePlayer):
+
+  seed = 123
+
+  def __init__(self):
+    self.rand = Rand(DecayMaxRepHunter.seed)
+    DecayMaxRepHunter.seed += 1
+    self.name = "DecayMaxRepHunter" # Hunt only with people with max reputation.
+
+  def hunt_choices(self, round_number, current_food, current_reputation, m, player_reputations):
+    threshold = max(player_reputations)
+    # return ['h' if rep == threshold and (self.rand.random() < 1.0/round_number) else 's' for rep in player_reputations]
+    return ['h' if rep == threshold and (len(player_reputations) > 4) else 's' for rep in player_reputations]
+
 
 class RandomHunter(BasePlayer):
 
@@ -122,4 +136,40 @@ class Confuser(BasePlayer):
       self.decision = 'h'
     return [self.decision for rep in player_reputations]
 
+class GlobalWatcher(BasePlayer):
+
+  seed = 166 
+
+  def __init__(self, constant):
+    self.rand = Rand(FairHunter.seed)
+    FairHunter.seed += 1
+    self.name = "GlobalWatcher(" + str(constant) + ")"
+    self.constant = constant
+
+  def hunt_choices(self, round_number, current_food, current_reputation, m, player_reputations):
+    threshold = max(player_reputations)
+    avg = float(sum(player_reputations)) / len(player_reputations)
+    return ['h' if (rep > 2.0 * avg or (rep==threshold and 
+                                        self.rand.random() < 1.0/round_number)
+                   ) else 's' for rep in player_reputations]
+
+class Poisson(BasePlayer):
+
+  seed = 555
+
+  def __init__(self, lambd = 0.05):
+    self.rand = Rand(Poisson.seed)
+    Poisson.seed += 1
+    self.name = "Poisson"
+    self.goal = 0.5
+    self.dgoal = (0.5 - self.rand.random()) / 10
+    self.next = 1 + int(self.rand.expovariate(lambd))
+
+  def hunt_choices(self, round_number, current_food, current_reputation, m, player_reputations):
+    if round_number == self.next:
+      self.dgoal = (0.5 - self.rand.random()) / 10
+    self.goal += self.dgoal
+    self.goal = 0 if self.goal < 0 else self.goal
+    self.goal = 1 if self.goal > 1 else self.goal
+    return ['h' if self.rand.random() < self.goal else 's' for p in player_reputations]
 

@@ -19,7 +19,7 @@ class BaseAnalyzer():
   def loc(self): # Location of legend, optionally to be overriden by the subclasses.
     return 'lower right'
 
-  def plot(self, meta = True):
+  def plot(self, meta = True, loc = None):
     colors = ['b', 'g', 'r', 'c', 'm', 'y', 'k']
     dashes = ['', '--', ':']
     combinations = [x for x in product(dashes, colors)]
@@ -31,7 +31,7 @@ class BaseAnalyzer():
       if dash:
         line.set_ls(dash)
     if meta:
-      legend([p.name for p in self.game.unshuffled], loc=self.loc())
+      legend([p.name for p in self.game.unshuffled], loc=loc if loc else self.loc())
 
   def save(self, fname = None):
     if fname == None:
